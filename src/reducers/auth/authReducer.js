@@ -1,14 +1,11 @@
 import {
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
-  LOGIN_FAIL,
-  LOGOUT_FAIL,
   SET_LOADING,
 } from "../../actions/auth/authTypes";
 const initialState = {
   loading: false,
   user: {},
-  // loginErrors: [],
   isAuthenticated: false,
 };
 
