@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, lazy, Suspense } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -14,8 +14,9 @@ import Analytics from "./components/modules/analytics/analytics";
 import Login from "./components/modules/login/Login";
 import PrivateRoute from "./components/utils/PrivateRoute";
 import Navbar from "./components/modules/navbar/navbar";
-const { Content } = Layout;
+import CircularProgressOverlay from "./components/utils/circular-progress-overlay";
 
+const { Content } = Layout;
 const App = (props) => {
   useEffect(() => {
     if (props.messages.success.length) {
@@ -48,13 +49,15 @@ const App = (props) => {
               : {}
           }
         >
-          <Switch>
-            <PrivateRoute exact path="/home" component={Home} />
-            <PrivateRoute exact path="/dashboard" component={Dashboard} />
-            <PrivateRoute exact path="/patients" component={Patients} />
-            <PrivateRoute exact path="/resources" component={Resources} />
-            <PrivateRoute exact path="/analytics" component={Analytics} />
-          </Switch>
+          <Suspense fallback={<CircularProgressOverlay />}>
+            <Switch>
+              <PrivateRoute exact path="/home" component={Home} />
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+              <PrivateRoute exact path="/patients" component={Patients} />
+              <PrivateRoute exact path="/resources" component={Resources} />
+              <PrivateRoute exact path="/analytics" component={Analytics} />
+            </Switch>
+          </Suspense>
         </Content>
       </Layout>
     </div>

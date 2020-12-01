@@ -4,6 +4,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Button from "@material-ui/core/Button";
 import ListItemText from "@material-ui/core/ListItemText";
+import CircularProgressOverlay from "../../utils/circular-progress-overlay";
 
 import { getEmployeeList } from "../../../actions/employee/employeeActions";
 
@@ -20,19 +21,27 @@ const Dashboard = (props) => {
   const getData = () => {
     props.getEmployeeList();
   };
-  return (
-    <div className="my-3">
-      <h3>Dashboard</h3>
-      <Button variant="contained" color="primary" onClick={getData}>
-        Get Data
-      </Button>
-      <List component="nav" aria-label="main mailbox folders">
-        <ListItem>
-          <ListItemText primary={listItems} />;
-        </ListItem>
-      </List>
-    </div>
-  );
+  if (props.employee.loading) {
+    return (
+      <div>
+        <CircularProgressOverlay />
+      </div>
+    );
+  } else {
+    return (
+      <div className="my-3">
+        <h3>Dashboard</h3>
+        <Button variant="contained" color="primary" onClick={getData}>
+          Get Data
+        </Button>
+        <List component="nav" aria-label="main mailbox folders">
+          <ListItem>
+            <ListItemText primary={listItems} />;
+          </ListItem>
+        </List>
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state) => ({
